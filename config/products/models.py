@@ -8,6 +8,7 @@ class Product(models.Model):
     CLOTHING = 'clothing'
     ACCESSORIES = 'accessories'
 
+
     CATEGORY_CHOICES = [
         (ELECTRONICS, 'Electronics'),
         (CLOTHING, 'Clothing'),
@@ -24,6 +25,8 @@ class Product(models.Model):
     stock_quantity = models.PositiveIntegerField(blank=False)
     image_url = models.URLField(blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
 
     def clean(self):
         super().clean()
@@ -44,10 +47,10 @@ class Product(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()  # Required field
+    quantity = models.PositiveIntegerField()  
     order_date = models.DateTimeField(auto_now_add=True)
     def save(self, *args, **kwargs):
-        self.clean()  # Do some validation or checks
+        self.clean()  
         self.product.reduce_stock(self.quantity)  # Update stock
         super().save(*args, **kwargs)  
     def __str__(self):

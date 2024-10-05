@@ -10,7 +10,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 # Create your views here.
 class ProductFilter(django_filters.FilterSet):
     name = django_filters.CharFilter(field_name='name', lookup_expr='icontains')  # Partial match
-    category = django_filters.ChoiceFilter(field_name='category')
+    category = django_filters.ChoiceFilter(field_name='category', lookup_expr='icontains')
     price = django_filters.RangeFilter(field_name='price')  # For price range filtering
     stock_quantity = django_filters.NumberFilter(field_name='stock_quantity', lookup_expr='gte')  # Available stock
 
@@ -42,8 +42,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
-    permission_classes = [IsAuthenticated]  # Optional: Require authentication for order actions
+    permission_classes = [IsAuthenticated]  #  Require authentication for order actions
 
     def perform_create(self, serializer):
-        # Optional: Add any logic you need before creating an order
         serializer.save(user=self.request.user) 
