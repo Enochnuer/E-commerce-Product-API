@@ -5,7 +5,7 @@ class ProductSerializer(serializers.ModelSerializer):
     user_email = serializers.SerializerMethodField()
     class Meta:
         model = Product
-        fields = ['id','user_email', 'name', 'price', 'description', 'category', 'stock_quantity', 'image_url', 'created_date']
+        fields = ['id','user_email', 'username', 'name', 'price', 'description', 'category', 'stock_quantity', 'image_url', 'created_date']
 
     def get_user_email(self, obj):
          return obj.user.email
@@ -15,7 +15,7 @@ class OrderSerializer(serializers.ModelSerializer):
     product_name = serializers.SerializerMethodField()
     class Meta:
         model = Order
-        fields = ['id', 'user_email', 'product_name', 'quantity', 'order_date']
+        fields = ['id', 'user_email','username',  'product_name', 'quantity', 'order_date']
 
     def get_user_email(self, obj):
            return obj.user.email
